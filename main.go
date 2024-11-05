@@ -9,6 +9,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"photo_exif_do/fg"
 	"strings"
 	"time"
 )
@@ -159,24 +160,9 @@ func removeEditStr(path string) {
 	}
 }
 
-func main() {
-	// 读取命令行参数 - 目录
-	if len(os.Args) < 2 {
-		log.Fatal("Usage: exif_pass <directory>")
-	}
-
-	// 安全 QA
-	log.Println("请确保已经设置了快照，程序将会直接修改文件的 exif 元数据, 建议在使用前选择少量照片进行测试后再使用")
-	log.Println("您确认要继续吗? (y/n)")
-	var confirm string
-	fmt.Scanln(&confirm)
-	if confirm != "y" {
-		log.Fatal("已取消")
-	}
-
-	// 读取目录
-	dir := os.Args[1]
-	files, err := os.ReadDir(dir)
+// quMagie 处理 QuMagie 备份的照片
+func quMagie(path string) {
+	files, err := os.ReadDir(path)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -185,10 +171,12 @@ func main() {
 
 	// 遍历目录下的文件
 	for _, file := range files {
+		// QuMagie 不会有子文件夹, 所以不需要递归
 		if file.IsDir() {
 			continue
 		}
-		filePath := filepath.Join(dir, file.Name())
+
+		filePath := filepath.Join(path, file.Name())
 		if strings.HasSuffix(strings.ToLower(filePath), ".jpg") || strings.HasSuffix(strings.ToLower(filePath), ".jpeg") {
 			if err := setDateIfNone(filePath, counter); err != nil {
 				log.Printf("[FAIL](%d) %s: %v\n", counter, filePath, err)
@@ -201,4 +189,26 @@ func main() {
 
 		counter++
 	}
+}
+
+func main() {
+	fg.Parse()
+
+	// 安全 QA
+	log.Println("请确保已经设置了快照，程序将会直接修改文件的 exif 元数据, 建议在使用前选择少量照片进行测试后再使用")
+	log.Println("您确认要继续吗? (y/n)")
+	var confirm string
+
+	if _, err := fmt.Scanln(&confirm); err != nil {
+		return
+	} else if confirm != "y" {
+		log.Fatal("已取消")
+	}
+
+	// 读取目录
+	switch fg.Mode {
+	default:
+		quMagie(fg.Path)
+	}
+
 }
