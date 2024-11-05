@@ -10,23 +10,6 @@ import (
 	"time"
 )
 
-// setExifTag 设置exif标签
-func setExifTag(rootIB *exif.IfdBuilder, ifdPath, tagName, tagValue string) error {
-	// fmt.Printf("setTag(): ifdPath: %v, tagName: %v, tagValue: %v",
-	//	ifdPath, tagName, tagValue)
-
-	ifdIb, err := exif.GetOrCreateIbFromRootIb(rootIB, ifdPath)
-	if err != nil {
-		return fmt.Errorf("failed to get or create IB: %v", err)
-	}
-
-	if err := ifdIb.SetStandardWithName(tagName, tagValue); err != nil {
-		return fmt.Errorf("failed to set DateTime tag: %v", err)
-	}
-
-	return nil
-}
-
 func setJpgExif(filePath string, t time.Time) error {
 
 	parser := jpeg.NewJpegMediaParser()

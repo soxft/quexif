@@ -11,6 +11,23 @@ import (
 	"time"
 )
 
+// setExifTag 设置exif标签
+func setExifTag(rootIB *exif.IfdBuilder, ifdPath, tagName, tagValue string) error {
+	// fmt.Printf("setTag(): ifdPath: %v, tagName: %v, tagValue: %v",
+	//	ifdPath, tagName, tagValue)
+
+	ifdIb, err := exif.GetOrCreateIbFromRootIb(rootIB, ifdPath)
+	if err != nil {
+		return fmt.Errorf("failed to get or create IB: %v", err)
+	}
+
+	if err := ifdIb.SetStandardWithName(tagName, tagValue); err != nil {
+		return fmt.Errorf("failed to set DateTime tag: %v", err)
+	}
+
+	return nil
+}
+
 // ReadExif 获取exif 中的 DateTimeOriginal
 func ReadExif(path string) (string, error) {
 	opt := exif.ScanOptions{}

@@ -9,6 +9,7 @@ var Path string
 var DateTime string
 var DateTpl = "2006-01-02 15.04.05"
 var Force bool
+var SkipSafeQA bool
 
 // Parse 解析命令行参数
 func Parse() {
@@ -17,6 +18,7 @@ func Parse() {
 	flag.StringVar(&DateTime, "datetime", "", "日期时间")
 	flag.StringVar(&DateTpl, "tpl", "2006-01-02 15.04.05", "日期时间模板, 默认为 '2006-01-02 15.04.05' 请参照 Golang 时间 layout 设置, 不适用于 QuMagie 模式")
 	flag.BoolVar(&Force, "f", false, "强制执行, 不会检查是否已经有日期")
+	flag.BoolVar(&SkipSafeQA, "skipSafeQA", false, "跳过安全 QA, 直接执行")
 
 	flag.Parse()
 }
