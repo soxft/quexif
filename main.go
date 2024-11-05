@@ -5,7 +5,6 @@ import (
 	"photo_exif_do/fg"
 	"photo_exif_do/qumagie"
 	"photo_exif_do/x_exif"
-	"time"
 )
 
 func main() {
@@ -29,9 +28,9 @@ func main() {
 	case "dirDate": //按照上级文件夹名称修改
 		break
 	case "test":
-		log.Println(x_exif.SetDate("pics/qumagie/2006-01-02 15.04.05.jpg", time.Now(), true))
+		// log.Println(x_exif.SetDate("pics/qumagie/2006-01-02 15.04.05.jpg", time.Now(), true))
 
-		log.Println(x_exif.ReadExif("pics/qumagie/2006-01-02 15.04.05.jpg"))
+		log.Println(x_exif.ReadExif("pics/qumagie/2022-06-15 10.13.50.png"))
 	default:
 		qumagie.Run(fg.Path)
 	}
