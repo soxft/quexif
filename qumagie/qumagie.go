@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"photo_exif_do/fg"
 	"photo_exif_do/x_exif"
 	"regexp"
 	"time"
@@ -59,7 +60,7 @@ func Run(path string) {
 			continue
 		}
 
-		if err := x_exif.SetDate(filePath, t, true); err == nil {
+		if err := x_exif.SetDate(filePath, t, !fg.Force); err == nil {
 			log.Printf("[SUCC](%d) %s -> %s\n", counter, filename, t.Format("2006-01-02 15.04.05"))
 			x_exif.RemoveEditStr(filePath)
 		} else if errors.Is(err, x_exif.ErrAlreadyHasDate) || errors.Is(err, x_exif.ErrMediaTypeNotSupport) {

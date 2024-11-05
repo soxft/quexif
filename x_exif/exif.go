@@ -31,23 +31,6 @@ func ReadExif(path string) (string, error) {
 	return "", errors.New("mo DateTime from exif")
 }
 
-// setExifTag 设置exif标签
-func setExifTag(rootIB *exif.IfdBuilder, ifdPath, tagName, tagValue string) error {
-	// fmt.Printf("setTag(): ifdPath: %v, tagName: %v, tagValue: %v",
-	//	ifdPath, tagName, tagValue)
-
-	ifdIb, err := exif.GetOrCreateIbFromRootIb(rootIB, ifdPath)
-	if err != nil {
-		return fmt.Errorf("failed to get or create IB: %v", err)
-	}
-
-	if err := ifdIb.SetStandardWithName(tagName, tagValue); err != nil {
-		return fmt.Errorf("failed to set DateTime tag: %v", err)
-	}
-
-	return nil
-}
-
 // SetDate 为文件设置日期 如果已经存在则跳过
 func SetDate(filePath string, t time.Time, skip bool) error {
 	// 检测是否已经有日期
@@ -62,7 +45,7 @@ func SetDate(filePath string, t time.Time, skip bool) error {
 	case ".jpg", ".jpeg":
 		return setJpgExif(filePath, t)
 	case ".png":
-		break
+		return setPngDate(filePath, t)
 	default:
 	}
 
