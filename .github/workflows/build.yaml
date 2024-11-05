@@ -19,26 +19,26 @@ jobs:
 
       - name: Build
         run: |
-          GOOS=linux GOARCH=amd64 go build -o exif-pass-linux-amd64-${{ github.ref_name }}
-          GOOS=linux GOARCH=arm64 go build -o exif-pass-linux-arm64-${{ github.ref_name }}
-          GOOS=darwin GOARCH=amd64 go build -o exif-pass-darwin-amd64-${{ github.ref_name }}
-          GOOS=darwin GOARCH=arm64 go build -o exif-pass-darwin-arm64-${{ github.ref_name }}
-          GOOS=windows GOARCH=amd64 go build -o exif-pass-windows-amd64-${{ github.ref_name }}.exe
-          GOOS=windows GOARCH=arm64 go build -o exif-pass-windows-arm64-${{ github.ref_name }}.exe
-          GOOS=windows GOARCH=386 go build -o exif-pass-windows-386-${{ github.ref_name }}.exe
+          GOOS=linux GOARCH=amd64 go build -o quexif-linux-amd64-${{ github.ref_name }}
+          GOOS=linux GOARCH=arm64 go build -o quexif-linux-arm64-${{ github.ref_name }}
+          GOOS=darwin GOARCH=amd64 go build -o quexif-darwin-amd64-${{ github.ref_name }}
+          GOOS=darwin GOARCH=arm64 go build -o quexif-darwin-arm64-${{ github.ref_name }}
+          GOOS=windows GOARCH=amd64 go build -o quexif-windows-amd64-${{ github.ref_name }}.exe
+          GOOS=windows GOARCH=arm64 go build -o quexif-windows-arm64-${{ github.ref_name }}.exe
+          GOOS=windows GOARCH=386 go build -o quexif-windows-386-${{ github.ref_name }}.exe
 
       - name: Archive
         uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/')
         with:
           files: |
-            exif-pass-linux-amd64-${{ github.ref_name }}
-            exif-pass-linux-arm64-${{ github.ref_name }}
-            exif-pass-darwin-amd64-${{ github.ref_name }}
-            exif-pass-darwin-arm64-${{ github.ref_name }}
-            exif-pass-windows-amd64-${{ github.ref_name }}.exe
-            exif-pass-windows-arm64-${{ github.ref_name }}.exe
-            exif-pass-windows-386-${{ github.ref_name }}.exe
+            quexif-linux-amd64-${{ github.ref_name }}
+            quexif-linux-arm64-${{ github.ref_name }}
+            quexif-darwin-amd64-${{ github.ref_name }}
+            quexif-darwin-arm64-${{ github.ref_name }}
+            quexif-windows-amd64-${{ github.ref_name }}.exe
+            quexif-windows-arm64-${{ github.ref_name }}.exe
+            quexif-windows-386-${{ github.ref_name }}.exe
           token: ${{ secrets.GITHUB_TOKEN }}
           tag_name: ${{ github.ref_name }}
           body: ${{ github.event.release.body }}

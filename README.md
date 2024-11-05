@@ -11,6 +11,29 @@
 
 ## 使用
 
+### 直接在本地运行, 以 Windows 为例
+
+1. 通过 SMB 等方式将图片目录挂载到本地电脑 假设为 Z:\
+2. 在 Release 目录下载对应的 二进制文件, 通常为 `quexif-windows-amd64-{{version}}.exe`
+3. 在命令行中执行
+
 ```shell
-    go run main.go /path/to/your/photos
+    $ quexif-windows-amd64-{{version}}.exe Z:\
+```
+
+### 在 Qnap 中运行
+
+> 假设 你的备份照片路径在 `/share/Public/Photo`
+
+1. 通过 SSH 登录 Qnap
+2. 下载对应的 二进制文件, 通常为 `quexif-linux-amd64-{{version}}`
+3. 将二进制文件上传到 Qnap 的 `/share/Public` 目录
+4. 在 SSH 中执行
+
+```shell
+    $ sudo -s 
+    
+    $ chmod +x /share/Public/quexif-linux-amd64-{{version}}
+    
+    $ /share/Public/quexif-linux-amd64-{{version}} /share/Public/Photo
 ```
