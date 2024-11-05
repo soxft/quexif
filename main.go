@@ -96,10 +96,6 @@ func setDateIfNone(filePath string, counter int) error {
 
 		rootIb = exif.NewIfdBuilder(im, ti, exifcommon.IfdStandardIfdIdentity,
 			exifcommon.EncodeDefaultByteOrder)
-		err = rootIb.AddStandardWithName("ProcessingSoftware", "photos-uploader")
-		if err != nil {
-			return err
-		}
 	}
 
 	// 检测是否已经有日期
