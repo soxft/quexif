@@ -1,6 +1,6 @@
 module photo_exif_do
 
-go 1.19
+go 1.23
 
 require (
 	github.com/dsoprea/go-exif/v3 v3.0.1
