@@ -37,3 +37,8 @@
     
     $ /share/Public/quexif-linux-amd64-{{version}} -p /share/Public/Photo
 ```
+
+
+## Thinks
+
+- [go-exif](//github.com/dsoprea/go-exif/v3)
