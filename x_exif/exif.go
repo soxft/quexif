@@ -7,6 +7,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"photo_exif_do/fg"
 	"strings"
 	"time"
 )
@@ -49,11 +50,16 @@ func ReadExif(path string) (string, error) {
 }
 
 // SetDate 为文件设置日期 如果已经存在则跳过
-func SetDate(filePath string, t time.Time, skip bool) error {
+func SetDate(filePath string, t time.Time) error {
+	// 前置后缀检查
+	if !IsExtValid(filePath) {
+		return ErrMediaTypeNotSupport
+	}
+
 	// 检测是否已经有日期
-	if skip {
-		aDate, err := ReadExif(filePath)
-		if aDate != "" || err != nil {
+	if !fg.Force {
+		aDate, _ := ReadExif(filePath)
+		if aDate != "" {
 			return ErrAlreadyHasDate
 		}
 	}
@@ -62,8 +68,7 @@ func SetDate(filePath string, t time.Time, skip bool) error {
 	case ".jpg", ".jpeg":
 		return setJpgExif(filePath, t)
 	case ".png":
-		return setPngDate(filePath, t)
-	default:
+		return setPngExif(filePath, t)
 	}
 
 	return ErrMediaTypeNotSupport
@@ -82,5 +87,13 @@ func RemoveEditStr(path string) {
 	}
 }
 
-var ErrAlreadyHasDate = fmt.Errorf("already has date")
-var ErrMediaTypeNotSupport = fmt.Errorf("media type not support")
+func IsExtValid(path string) bool {
+	switch strings.ToLower(filepath.Ext(path)) {
+	case ".jpg", ".jpeg", ".png":
+		return true
+	}
+	return false
+}
+
+var ErrAlreadyHasDate = fmt.Errorf("已经存在 Exif 日期")
+var ErrMediaTypeNotSupport = fmt.Errorf("不支持的媒体类型, 仅支持 jpg 和 png")

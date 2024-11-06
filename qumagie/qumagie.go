@@ -6,7 +6,6 @@ import (
 	"log"
 	"os"
 	"path/filepath"
-	"photo_exif_do/fg"
 	"photo_exif_do/x_exif"
 	"regexp"
 	"time"
@@ -55,18 +54,18 @@ func Run(path string) {
 
 		t, err := getTime(filePath)
 		if err != nil {
-			log.Printf("[SKIP](%d) %s -> %v\n", counter, filename, err)
+			log.Printf("\033[0;33m[SKIP]\033[0m(%d) %s -> %v\n", counter, filename, err)
 			counter++
 			continue
 		}
 
-		if err := x_exif.SetDate(filePath, t, !fg.Force); err == nil {
-			log.Printf("[SUCC](%d) %s -> %s\n", counter, filename, t.Format("2006-01-02 15.04.05"))
+		if err := x_exif.SetDate(filePath, t); err == nil {
+			log.Printf("\033[0;32m[SUCC]\033[0m(%d) %s -> %s\n", counter, filename, t.Format("2006-01-02 15.04.05"))
 			x_exif.RemoveEditStr(filePath)
 		} else if errors.Is(err, x_exif.ErrAlreadyHasDate) || errors.Is(err, x_exif.ErrMediaTypeNotSupport) {
-			log.Printf("[SKIP](%d) %s -> %v\n", counter, filename, err)
+			log.Printf("\033[0;33m[SKIP]\033[0m(%d) %s -> %v\n", counter, filename, err)
 		} else {
-			log.Printf("[FAIL](%d) %s -> %v\n", counter, filename, err)
+			log.Printf("\033[0;31m[FAIL]\033[0m(%d) %s -> %v\n", counter, filename, err)
 		}
 
 		counter++

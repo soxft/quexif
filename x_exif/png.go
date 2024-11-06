@@ -12,7 +12,7 @@ import (
 	"time"
 )
 
-func setPngDate(filePath string, t time.Time) error {
+func setPngExif(filePath string, t time.Time) error {
 	praser := png.NewPngMediaParser()
 	intfc, err := praser.ParseFile(filePath)
 	if err != nil {
