@@ -18,7 +18,7 @@
 3. 在命令行中执行
 
 ```shell
-    $ quexif-windows-amd64-{{version}}.exe -p Z:\
+$ quexif-windows-amd64-{{version}}.exe -p Z:\
 ```
 
 ### 在 Qnap 中运行
@@ -31,13 +31,52 @@
 4. 在 SSH 中执行
 
 ```shell
-    $ sudo -s 
+$ sudo -s 
     
-    $ chmod +x /share/Public/quexif-linux-amd64-{{version}}
-    
-    $ /share/Public/quexif-linux-amd64-{{version}} -p /share/Public/Photo
+$ chmod +x /share/Public/quexif-linux-amd64-{{version}}
+
+$ /share/Public/quexif-linux-amd64-{{version}} -p /share/Public/Photo
 ```
 
+## 其他支持项
+
+> 您可以使用 ./quexif -h 查看所有支持的参数
+```shell
+Usage of quexif:
+  -d string
+        日期时间
+  -f    强制执行, 不会检查是否已经有日期
+  -m string
+        操作模式: qumagie (QuMagie 备份照片处理), dir (指定文件夹批量修改 EXIF时间), dir_date (按照路径推导时间) (default "qumagie")
+  -p string
+        文件夹路径
+  -skip
+        跳过安全询问, 直接执行
+  -t string
+        日期时间模板, 默认为 '2006-01-02 15.04.05' 请参照 Golang 时间 layout 设置, 不适用于 QuMagie 模式 (default "2006-01-02 15.04.05")
+
+```
+
+- 批量修改某个目录及其子目录下的所有图片为指定时间
+
+```shell
+$ ./quexif -m dir -d '2024-11-23' -t '2006-01-02' -p ./pics
+
+# -m dir 表示修改目录下的所有图片
+# -d '2024-11-23' 表示修改为 2024-11-23
+# -t '2006-01-02' 表示时间格式为 2006-01-02
+# -p ./pics 表示目录为 ./pics
+```
+
+- 批量修改某个目录及其子目录下的所有图片, 按照设定的时间模板尝试推导时间
+
+```shell
+go run main.go -m dir_date -t '2006-01-02' -p ./pics
+
+# -m dir_date 表示修改目录下的所有图片, 并按照文件名推导时间
+# -t '2006-01-02' 表示时间格式为 2006-01-02
+# -p ./pics 表示目录为 ./pics
+```
 
 ## Thinks
 
