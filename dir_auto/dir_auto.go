@@ -7,6 +7,7 @@ import (
 	"path/filepath"
 	"photo_exif_do/fg"
 	"photo_exif_do/x_exif"
+	"regexp"
 	"strings"
 	"time"
 )
@@ -71,6 +72,26 @@ func tryGetDate(path string) (time.Time, error) {
 	sp := strings.Split(path, "/")
 
 	for i := len(sp) - 1; i >= 0; i-- {
+		if fg.Regex != "" {
+			// 尝试进行正则匹配
+			re := regexp.MustCompile(fg.Regex)
+
+			if re.MatchString(sp[i]) {
+				timeStr := re.FindStringSubmatch(sp[i])
+
+				for _, v := range timeStr {
+					parsedTime, err := time.Parse(fg.DateTpl, v)
+					if err == nil {
+						return parsedTime, nil
+					}
+				}
+
+				continue
+			}
+
+			continue
+		}
+
 		// 对于后缀
 		if i == len(sp)-1 && strings.Contains(sp[i], ".") {
 			sp := strings.Split(sp[i], ".")
