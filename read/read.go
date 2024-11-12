@@ -5,17 +5,10 @@ import (
 	"os"
 	"path/filepath"
 	"photo_exif_do/fg"
+	"photo_exif_do/tool"
 	"photo_exif_do/x_exif"
 	"strings"
 )
-
-func isFile(path string) bool {
-	info, err := os.Stat(path)
-	if os.IsNotExist(err) {
-		return false // 文件不存在
-	}
-	return !info.IsDir() // 如果不是目录，则是文件
-}
 
 func isPathHasPrefix(path string, prefix string) bool {
 	x := strings.Split(path, "/")
@@ -30,7 +23,7 @@ func isPathHasPrefix(path string, prefix string) bool {
 
 func Run(path string) {
 	// check is file
-	if isFile(path) {
+	if tool.IsFile(path) {
 		filename := filepath.Base(path)
 		t, e := x_exif.ReadExif(path)
 		if e != nil {

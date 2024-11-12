@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 	"photo_exif_do/dir"
-	"photo_exif_do/dir_date"
+	"photo_exif_do/dir_auto"
 	"photo_exif_do/fg"
 	"photo_exif_do/qumagie"
 	"photo_exif_do/read"
@@ -32,8 +32,8 @@ func main() {
 	case "dir": // 指定文件夹批量修改
 		dir.Run(fg.Path)
 		break
-	case "dir_date": // 按照上级文件夹名称修改
-		dir_date.Run(fg.Path)
+	case "dir_auto": // 按照上级文件夹名称修改 推导
+		dir_auto.Run(fg.Path)
 		break
 	case "qumagie": // 读取指定文件夹或目录的 exif date 信息
 		qumagie.Run(fg.Path)

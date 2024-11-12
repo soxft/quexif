@@ -7,6 +7,7 @@ import (
 	"os"
 	"path/filepath"
 	"photo_exif_do/fg"
+	"photo_exif_do/tool"
 	"photo_exif_do/x_exif"
 	"strings"
 	"time"
@@ -21,7 +22,7 @@ func Run(path string) {
 	}
 
 	if !fg.SkipSafeQA {
-		log.Printf("即将对 %s 下的所有文件设置时间为 %s, 继续? (y/N)\n", path, t.Format(fg.DateTpl))
+		log.Printf("即将对 %s 或 %s 下的所有文件设置时间为 %s, 继续? (y/N)\n", path, path, t.Format(fg.DateTpl))
 		var confirm string
 
 		if _, err := fmt.Scanln(&confirm); err != nil {
@@ -31,6 +32,19 @@ func Run(path string) {
 		}
 	}
 
+	if tool.IsFile(path) {
+		filename := filepath.Base(path)
+
+		if err := x_exif.SetDate(path, t); err == nil {
+			log.Printf("\033[0;32m[SUCC]\033[0m %s -> %s\n", filename, t.Format("2006-01-02 15.04.05"))
+		} else if errors.Is(err, x_exif.ErrAlreadyHasDate) || errors.Is(err, x_exif.ErrMediaTypeNotSupport) {
+			log.Printf("\033[0;33m[SKIP]\033[0m %s -> %v\n", filename, err)
+		} else {
+			log.Printf("\033[0;31m[FAIL]\033[0m %s -> %v\n", filename, err)
+		}
+
+		return
+	}
 	// 递归遍历目录
 	counter := 1
 	err = filepath.Walk(path, func(path string, info os.FileInfo, err error) error {
