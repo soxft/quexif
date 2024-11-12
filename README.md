@@ -18,7 +18,7 @@
 3. 在命令行中执行
 
 ```shell
-$ quexif-windows-amd64-{{version}}.exe -p Z:\
+$ quexif-windows-amd64-{{version}}.exe -m qumagie -p Z:\
 ```
 
 ### 在 Qnap 中运行
@@ -35,7 +35,7 @@ $ sudo -s
     
 $ chmod +x /share/Public/quexif-linux-amd64-{{version}}
 
-$ /share/Public/quexif-linux-amd64-{{version}} -p /share/Public/Photo
+$ /share/Public/quexif-linux-amd64-{{version}} -m qumagie -p /share/Public/Photo
 ```
 
 ## 其他支持项
@@ -47,14 +47,13 @@ Usage of quexif:
         日期时间
   -f    强制执行, 不会检查是否已经有日期
   -m string
-        操作模式: qumagie (QuMagie 备份照片处理), dir (指定文件夹批量修改 EXIF时间), dir_date (按照路径推导时间) (default "qumagie")
+        操作模式: qumagie (QuMagie 备份照片处理), dir (指定文件夹批量修改 EXIF时间), dir_auto (按照路径推导时间), read (读取目录或文件的 EXIF 时间信息) (default "read")
   -p string
-        文件夹路径
+        文件夹路径 (default "./")
   -skip
         跳过安全询问, 直接执行
   -t string
         日期时间模板, 默认为 '2006-01-02 15.04.05' 请参照 Golang 时间 layout 设置, 不适用于 QuMagie 模式 (default "2006-01-02 15.04.05")
-
 ```
 
 - 批量修改某个目录及其子目录下的所有图片为指定时间
@@ -85,7 +84,7 @@ $ ./quexif -m dir -d '2024-11-23' -t '2006-01-02' -p ./pics
 
 此时您可以执行如下脚本, 脚本将自动解析文件夹名称, 并将其作为时间写入 Exif
 
-$ ./quexif -m dir_date -t '2006-01-02' -p ./pics
+$ ./quexif -m dir_auto -t '2006-01-02' -p ./pics
 
 # -m dir_date 表示修改目录下的所有图片, 并按照文件名推导时间
 # -t '2006-01-02' 表示时间格式为 2006-01-02
