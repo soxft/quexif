@@ -35,14 +35,14 @@ func main() {
 	case "dir_date": // 按照上级文件夹名称修改
 		dir_date.Run(fg.Path)
 		break
-	case "read": // 读取指定文件夹或目录的 exif date 信息
-		read.Run(fg.Path)
+	case "qumagie": // 读取指定文件夹或目录的 exif date 信息
+		qumagie.Run(fg.Path)
 		break
 	case "test":
 		// log.Println(x_exif.SetDate("pics/qumagie/2006-01-02 15.04.05.jpg", time.Now(), true))
 		log.Println(x_exif.ReadExif("pics/qumagie/2022-06-15 10.13.50.png"))
 	default:
-		qumagie.Run(fg.Path)
+		read.Run(fg.Path)
 	}
 
 }

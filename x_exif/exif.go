@@ -46,7 +46,7 @@ func ReadExif(path string) (string, error) {
 		}
 	}
 
-	return "", errors.New("mo DateTime from exif")
+	return "", errors.New("no DateTime from exif")
 }
 
 // SetDate 为文件设置日期 如果已经存在则跳过

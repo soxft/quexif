@@ -17,6 +17,17 @@ func isFile(path string) bool {
 	return !info.IsDir() // 如果不是目录，则是文件
 }
 
+func isPathHasPrefix(path string, prefix string) bool {
+	x := strings.Split(path, "/")
+	for _, v := range x {
+		if strings.HasPrefix(v, prefix) {
+			return true
+		}
+	}
+
+	return false
+}
+
 func Run(path string) {
 	// check is file
 	if isFile(path) {
@@ -40,7 +51,7 @@ func Run(path string) {
 			return nil
 		}
 
-		if info.IsDir() || !x_exif.IsExtValid(path) || strings.HasPrefix(filename, ".") {
+		if info.IsDir() || !x_exif.IsExtValid(path) || isPathHasPrefix(filename, ".") {
 			// log.Printf("[SKIP](%d) %s -> %v\n", counter, path, "is a directory")
 			return nil
 		}
