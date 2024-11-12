@@ -34,11 +34,11 @@ func ReadExif(path string) (string, error) {
 	opt := exif.ScanOptions{}
 	dt, err := exif.SearchFileAndExtractExif(path)
 	if err != nil {
-		return "", fmt.Errorf("failed with Err: %v", err)
+		return "", err
 	}
 	ets, _, err := exif.GetFlatExifData(dt, &opt)
 	if err != nil {
-		return "", fmt.Errorf("failed with Err: %v", err)
+		return "", err
 	}
 	for _, et := range ets {
 		if et.TagName == "DateTimeOriginal" {

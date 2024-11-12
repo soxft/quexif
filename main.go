@@ -7,6 +7,7 @@ import (
 	"photo_exif_do/dir_date"
 	"photo_exif_do/fg"
 	"photo_exif_do/qumagie"
+	"photo_exif_do/read"
 	"photo_exif_do/x_exif"
 	"strings"
 )
@@ -15,7 +16,7 @@ func main() {
 	fg.Parse()
 
 	// 安全 QA
-	if !fg.SkipSafeQA {
+	if !fg.SkipSafeQA && fg.Mode != "read" {
 		log.Println("请确保已经设置了快照，程序将会直接修改文件的 exif 元数据, 是否继续? (y/N)")
 		var confirm string
 
@@ -33,6 +34,9 @@ func main() {
 		break
 	case "dir_date": // 按照上级文件夹名称修改
 		dir_date.Run(fg.Path)
+		break
+	case "read": // 读取指定文件夹或目录的 exif date 信息
+		read.Run(fg.Path)
 		break
 	case "test":
 		// log.Println(x_exif.SetDate("pics/qumagie/2006-01-02 15.04.05.jpg", time.Now(), true))
